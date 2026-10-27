@@ -11,6 +11,8 @@ SNAKE = [
    (12, 15),
 ]
 
+DIRECTION =(1,0)
+
 def draw_snake(snake):
       width, height = 20, 20
       color=(255,0,0) #couleur du serpent
@@ -18,7 +20,10 @@ def draw_snake(snake):
       for k in snake: #dessin case par case
             rect = pg.Rect(k[0]*20, k[1]*20, width, height)
             pg.draw.rect(screen, color, rect)
-                  
+
+def move_snake(snake, direction):
+      snake.pop(0) #retire la queue
+      snake.append((snake[-1][0]+direction[0], snake[-1][1]+direction[1])) #avance la tête
 
 def drawboard():
     screen.fill([0,0,0]) #on remplit le fond de noir
@@ -36,7 +41,7 @@ def drawboard():
 
 ev=True
 while ev==True:
-    clock.tick(1)#limite la boule à 1image/sec
+    clock.tick(2)#limite la boule à 1image/sec
 
     for event in pg.event.get():
         if event.type == pg.KEYDOWN and event.key == pg.K_q :
@@ -47,9 +52,12 @@ while ev==True:
     drawboard()
     draw_snake(SNAKE)
     pg.display.update()
+    move_snake(SNAKE, DIRECTION)
+
     
 pg.quit()
 sys.exit()
 
+#le serpent disparait lorqu'il atteint le bord de la fenêtre
 
 
